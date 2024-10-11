@@ -29,5 +29,5 @@ jobs:
 
     - name: Deploy Infrastructure
       run: gcloud deployment-manager deployments create migration-infra --config ./infra/deployment.yaml
-  # Using --source instead of --config
+  # Using --source instead of --config   #updated
 
