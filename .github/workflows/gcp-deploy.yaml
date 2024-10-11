@@ -1,0 +1,43 @@
+name: GCP Infrastructure Deployment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # This allows you to manually trigger the workflow
+
+jobs:
+  deploy:
+    name: Deploy GCP Infrastructure
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout Repository
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      
+      # Step 2: Authenticate with GCP
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: 'k8s-deployment-431312'  # Replace with your GCP project ID
+          credentials_json: ${{ secrets.GCP_SA_KEY }}  # Inject the service account JSON key
+
+      # Step 3: Enable Required APIs (Optional step, but useful)
+      - name: Enable Required GCP APIs
+        run: |
+          gcloud services enable deploymentmanager.googleapis.com \
+          compute.googleapis.com \
+          cloudresourcemanager.googleapis.com \
+          vpn.googleapis.com \
+          servicenetworking.googleapis.com
+
+      # Step 4: Deploy Infrastructure with Deployment Manager
+      - name: Deploy Infrastructure
+        run: |
+          gcloud deployment-manager deployments create gcp-migration-deployment \
+            --config deployment.yaml
+
+      # Step 5: List Deployed Resources
+      - name: List Deployed Resources
+        run: gcloud deployment-manager deployments describe gcp-migration-deployment
