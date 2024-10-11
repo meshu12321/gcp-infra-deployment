@@ -40,8 +40,7 @@ jobs:
       # Step 5: Deploy to GCP with Deployment Manager
       - name: Deploy Infrastructure
         run: |
-          gcloud deployment-manager deployments create gcp-migration-deployment \
-            --config deployment.yaml
+          gcloud deployment-manager deployments create migration-infra --config ./infra/deployment.yaml
 
       # Optional: Display Deployment Output
       - name: List Deployed Resources
