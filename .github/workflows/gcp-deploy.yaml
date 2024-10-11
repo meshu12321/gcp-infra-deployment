@@ -22,11 +22,12 @@ jobs:
       uses: google-github-actions/setup-gcloud@v1
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
-        export_default_credentials: true
+        install_components: 'gcloud'
 
     - name: Enable Deployment Manager API
       run: gcloud services enable deploymentmanager.googleapis.com
 
     - name: Deploy Infrastructure
       run: gcloud deployment-manager deployments create migration-infra \
-        --config ./infra/deployment.yaml
+        --source ./infra/deployment.yaml  # Using --source instead of --config
+
