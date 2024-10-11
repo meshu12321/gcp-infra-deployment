@@ -21,7 +21,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1
         with:
           project_id: 'k8s-deployment-431312'  # Replace with your GCP project ID
-          credentials_json: ${{ secrets.GCP_SA_KEY }}  # Inject the service account JSON key
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}  # Inject the service account JSON key
 
       # Step 3: Enable Required APIs (Optional step, but useful)
       - name: Enable Required GCP APIs
